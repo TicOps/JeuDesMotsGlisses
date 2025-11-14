@@ -1,9 +1,16 @@
 # JeuDesMotsGlisses
-Jeu des mots glissés - TP de C# - Algorithmique et POO
+TP de C# — Algorithmique & Programmation Orientée Objet
 
+---
 
-# Commandes utiles de création
---------------------------------------------
+# 📦 Commandes utiles
+
+## 👉 Cloner le dépôt distant (GitHub)
+<pre>```bash
+git clone https://github.com/TicOps/JeuDesMotsGlisses.git
+cd JeuDesMotsGlisses ```</pre>
+
+## 👉 Générer le projet (VsCode)
 ## -> pour pouvoir créer le projet C#
 <pre> ```bash dotnet new console -n JeuDesMotsGlisses ``` </pre>
 
