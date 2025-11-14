@@ -6,13 +6,13 @@ TP de C# — Algorithmique & Programmation Orientée Objet
 # 📦 Commandes utiles
 
 ## 👉 Cloner le dépôt distant (GitHub)
-<pre>```bash
+<pre>bash
 git clone https://github.com/TicOps/JeuDesMotsGlisses.git
-cd JeuDesMotsGlisses ```</pre>
+cd JeuDesMotsGlisses</pre>
 
 ## 👉 Générer le projet (VsCode)
 ## -> pour pouvoir créer le projet C#
-<pre> ```bash dotnet new console -n JeuDesMotsGlisses ``` </pre>
+<pre>bash dotnet new console -n JeuDesMotsGlisses </pre>
 
 ## -> lancer le programme.cs
-<pre> ```bash dotnet run ``` </pre>
+<pre>bash dotnet run </pre>
