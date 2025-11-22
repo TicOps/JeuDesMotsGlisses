@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("JeuDesMotsGlisses")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+57873806bcf16f52f6a45d8fa21ebcb31247a65d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2b80438024458626477bd0b5fadd6f1496d4164a")]
 [assembly: System.Reflection.AssemblyProductAttribute("JeuDesMotsGlisses")]
 [assembly: System.Reflection.AssemblyTitleAttribute("JeuDesMotsGlisses")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
