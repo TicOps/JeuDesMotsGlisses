@@ -16,3 +16,5 @@ cd JeuDesMotsGlisses </pre>
 
 ## -> lancer le programme.cs
 <pre>bash dotnet run </pre>
+
+<pre>git add .  git commit -m"message"  git push </pre>
