@@ -15,8 +15,11 @@ public class Joueur
     // ============================
     public Joueur(string nom)
     {
-        if (string.IsNullOrWhiteSpace(nom))
-            throw new ArgumentException("Le nom du joueur ne peut pas être vide.");
+        if(nom==null||nom=="")
+        {
+            Console.WriteLine("Erreur : le nom du joueur est vide."); 
+            nom = "Joueur"; 
+        }
 
         this.nom = nom;
         this.motsTrouves = new List<string>();
