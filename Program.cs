@@ -57,9 +57,22 @@ public class Program
     private static void JouerAvecPlateauAleatoire()
     {
         Console.Clear();
-        Console.WriteLine("[TODO] Jouer avec un plateau aléatoire n’est pas encore implémenté.");
-        Console.WriteLine("Appuyez sur une touche pour retourner au menu...");
+
+        // génération
+        Plateau p = new Plateau("Lettres.txt", 8, 8);
+        Dictionnaire d = new Dictionnaire("MotsFrancais.txt");
+
+        Console.Write("Nom joueur 1 : ");
+        Joueur j1 = new Joueur(Console.ReadLine());
+
+        Console.Write("Nom joueur 2 : ");
+        Joueur j2 = new Joueur(Console.ReadLine());
+
+        Jeu jeu = new Jeu(j1, j2, p, d);
+        jeu.Demarrer();
+
+        Console.WriteLine("Appuyez sur une touche pour revenir au menu");
         Console.ReadKey();
-        // TODO : Générer un plateau aléatoire + lancer une partie
     }
+
 }

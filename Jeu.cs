@@ -1,24 +1,126 @@
-using System;
-
 public class Jeu
 {
-    private Dictionnaire dico;
-    private Plateau plateau;
     private Joueur joueur1;
     private Joueur joueur2;
+    private Plateau plateau;
+    private Dictionnaire dictionnaire;
 
-    private int tempsTour;
-    private int tempsPartie;
+    private TimeSpan tempsPartie;
+    private TimeSpan tempsParTour;
+    private Dictionary<char, int> poidsLettres;
 
-    public Jeu()
+
+    public Jeu(Joueur j1, Joueur j2, Plateau plateau, Dictionnaire dict)
+{
+    joueur1 = j1;
+    joueur2 = j2;
+    this.plateau = plateau;
+    dictionnaire = dict;
+
+    tempsPartie = TimeSpan.FromMinutes(2);
+    tempsParTour = TimeSpan.FromSeconds(20);
+
+    ChargerPoids("Lettres.txt");
+}
+
+
+    public void Demarrer()
     {
-        // On initialisera tout plus tard
-        Console.WriteLine("Jeu initialisé.");
+        Console.WriteLine("Début de la partie !");
+        DateTime debut = DateTime.Now;
+
+        Joueur actif = joueur1;
+
+        while(DateTime.Now - debut < tempsPartie && !plateau.EstVide())
+        {
+            JeuUnTour(actif);
+            actif = actif == joueur1 ? joueur2 : joueur1;
+        }
+
+        Console.WriteLine("Fin de partie !");
+        AfficherScores();
     }
 
-    public void Lancer()
+    private void JeuUnTour(Joueur joueur)
     {
-        Console.WriteLine("La partie démarre !");
-        // On fera le menu + boucle de jeu ici
+        Console.Clear();
+        Console.WriteLine(plateau.ToString());
+        Console.WriteLine($"Au tour de {joueur.Nom}");
+
+        DateTime debutTour = DateTime.Now;
+
+        while(DateTime.Now - debutTour < tempsParTour)
+        {
+            Console.Write("Votre mot : ");
+            string mot = Console.ReadLine();
+
+            if (mot.Length < 2)
+            {
+                Console.WriteLine("Mot trop court !");
+                continue;
+            }
+
+            if (joueur.Contient(mot))
+            {
+                Console.WriteLine("Mot déjà trouvé !");
+                continue;
+            }
+
+            if (!dictionnaire.RechDichoRecursif(mot))
+            {
+                Console.WriteLine("Mot absent du dictionnaire !");
+                continue;
+            }
+
+            var resultat = plateau.Recherche_Mot(mot);
+            if (resultat == null)
+            {
+                Console.WriteLine("Mot introuvable sur le plateau !");
+                continue;
+            }
+
+            plateau.Maj_Plateau(resultat);
+
+            int score = CalculScore(mot);
+            joueur.Add_Mot(mot);
+            joueur.Add_Score(score);
+            Console.WriteLine($"Mot validé ! Score +{score}");
+            Console.ReadKey();
+            return;
+        }
+
+        Console.WriteLine("Temps écoulé !");
+        Console.ReadKey();
     }
+
+    private void ChargerPoids(string fichier)
+    {
+        poidsLettres = new Dictionary<char, int>();
+
+        string[] lignes = File.ReadAllLines(fichier);
+
+        foreach (string ligne in lignes)
+        {
+            string[] t = ligne.Split(',');
+            char lettre = t[0][0];
+            int poids = int.Parse(t[2]);
+
+            poidsLettres[lettre] = poids;
+        }
+    }
+
+    private int CalculScore(string mot)
+    {
+        int somme = 0;
+
+        foreach (char c in mot.ToUpper())
+        {
+            if (poidsLettres.ContainsKey(c))
+                somme += poidsLettres[c];
+        }
+
+        return somme * mot.Length;
+    }
+
+
 }

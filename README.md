@@ -18,3 +18,10 @@ cd JeuDesMotsGlisses </pre>
 <pre>bash dotnet run </pre>
 
 <pre>git add .  git commit -m"message"  git push </pre>
+
+
+# Fonctions à implémenter : 
+- Dans plateau.cs -> EstVide() pour détecter quand le plateau est vide
+- La fonction AfficherScore() qui permet d'afficher un texte de fin avec le vaiqueur et les scores des deux joueurs
+- Dans plateau.cs -> RechercheMot() pour savoir si un mot est bien sur le plateau
+- Dans pkateau.cs() -> MajPlateau() pour mettre à jour le plateau après avoir trouvé un mot.
