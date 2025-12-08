@@ -3,7 +3,21 @@ public class Plateau
     private char[,] grille; 
     private int lignes; 
     private int colonnes; 
-    
+    // Charge un plateau depuis un fichier CSV
+    public Plateau(string fichierCSV)
+    {
+        ToRead(fichierCSV);
+    }
+
+    // Génère un plateau aléatoire depuis Lettres.txt
+    public Plateau(string fichierLettres, int lignes, int colonnes)
+    {
+        this.lignes = lignes;
+        this.colonnes = colonnes;
+        grille = new char[lignes, colonnes];
+
+        GenererAleatoire(fichierLettres);
+    }
 public string ToString()
 {
     string s = "";   // On va construire progressivement la chaîne finale du plateau
