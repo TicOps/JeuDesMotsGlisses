@@ -42,17 +42,47 @@ public class Program
     }
 
     // ================================
-    //   FONCTIONS SIMPLIFIÉES / TODO
+    //  LANCEMENT DES FICHIERS
     // ================================
 
     private static void JouerDepuisFichier()
     {
         Console.Clear();
-        Console.WriteLine("[TODO] Jouer depuis un fichier CSV n’est pas encore implémenté.");
-        Console.WriteLine("Appuyez sur une touche pour retourner au menu...");
+        Console.WriteLine("=== Jouer à partir d’un fichier CSV ===");
+
+        Console.Write("Nom du fichier CSV (ex: Test1.csv) : ");
+        string nomFichier = Console.ReadLine();
+
+        // On charge le plateau
+        Plateau p;
+        try
+        {
+            p = new Plateau(nomFichier);
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine("Erreur lors de la lecture du fichier : " + ex.Message);
+            Console.WriteLine("Appuyez sur une touche pour revenir au menu");
+            Console.ReadKey();
+            return;
+        }
+
+        // On charge le dictionnaire
+        Dictionnaire d = new Dictionnaire("MotsFrancais.txt");
+
+        Console.Write("Nom joueur 1 : ");
+        Joueur j1 = new Joueur(Console.ReadLine());
+
+        Console.Write("Nom joueur 2 : ");
+        Joueur j2 = new Joueur(Console.ReadLine());
+
+        Jeu jeu = new Jeu(j1, j2, p, d);
+        jeu.Demarrer();
+
+        Console.WriteLine("Appuyez sur une touche pour revenir au menu");
         Console.ReadKey();
-        // TODO : Lire un plateau CSV + lancer une partie
     }
+
 
     private static void JouerAvecPlateauAleatoire()
     {

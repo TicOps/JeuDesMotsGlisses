@@ -21,30 +21,33 @@ public class Dictionnaire
     // CHARGEMENT DU DICTIONNAIRE
     // ===========================
     private void LoadFile(string filename)
+{
+    if (!File.Exists(filename))
+        throw new FileNotFoundException("Fichier dictionnaire introuvable !");
+
+    string[] lignes = File.ReadAllLines(filename);
+
+    foreach (string mot in lignes)
     {
-        if (!File.Exists(filename))   // vérification que le fichier existe
-            throw new FileNotFoundException("Fichier dictionnaire introuvable !");
+        string clean = mot.Trim().Trim('\uFEFF');
 
-        string[] lignes = File.ReadAllLines(filename); // ReadAllLines lit le fichier entier et retourne un tableau de string 
+        if (clean.Length == 0) 
+            continue;
 
-        foreach (string mot in lignes)
-        {
-            if (!string.IsNullOrWhiteSpace(mot))   
-            {
-                char c = char.ToUpper(mot[0]); // on met la première lettre en majuscule 
-                int index = c - 'A';  // méthode simple pour transformer une lettre en indice numérique 
+        clean = clean.ToUpper();
 
-                if (index >= 0 && index < 26)  // Vérifie que la lettre du mot est bien dans A-Z 
-                {
-                    dico[index].Add(mot.ToUpper()); // si oui ajout dans la bonne liste
-                }
-            }
-        }
+        char c = clean[0];
+        int index = c - 'A';
+        if (index < 0 || index >= 26)
+            continue;
 
-        // Tri de chaque liste
-        for (int i = 0; i < 26; i++)
-            dico[i].Sort();  // Tri rapide fourni par .NET
+        dico[index].Add(clean);
     }
+
+    for(int i = 0; i < 26; i++)
+        dico[i].Sort(StringComparer.Ordinal);
+}
+
 
     // ===========================
     // AFFICHAGE

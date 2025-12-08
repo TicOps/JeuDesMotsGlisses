@@ -122,5 +122,31 @@ public class Jeu
         return somme * mot.Length;
     }
 
+    private void AfficherScores()
+    {
+        Console.Clear();
+        Console.WriteLine("=== Fin de partie ===\n");
 
-}
+        Console.WriteLine($"{joueur1.Nom} : {joueur1.Score} points");
+        Console.WriteLine($"{joueur2.Nom} : {joueur2.Score} points\n");
+
+        if (joueur1.Score > joueur2.Score)
+        {
+            Console.WriteLine($"🏆 Le gagnant est {joueur1.Nom} !");
+        }
+        else if (joueur2.Score > joueur1.Score)
+        {
+            Console.WriteLine($"🏆 Le gagnant est {joueur2.Nom} !");
+        }
+        else
+        {
+            Console.WriteLine("🤝 Égalité parfaite !");
+        }
+
+        Console.WriteLine("\nAppuyez sur une touche pour revenir au menu...");
+        Console.ReadKey();
+    }
+
+
+
+    }
