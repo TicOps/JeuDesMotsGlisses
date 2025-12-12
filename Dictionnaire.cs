@@ -20,32 +20,41 @@ public class Dictionnaire
     // ===========================
     // CHARGEMENT DU DICTIONNAIRE
     // ===========================
-    private void LoadFile(string filename)
+    public void LoadFile(string nomFichier)
 {
-    if (!File.Exists(filename))
-        throw new FileNotFoundException("Fichier dictionnaire introuvable !");
+    // dico est déjà initialisé dans ton constructeur
 
-    string[] lignes = File.ReadAllLines(filename);
+    string[] lignes = File.ReadAllLines(nomFichier);
 
-    foreach (string mot in lignes)
+    foreach (string rawLine in lignes)
     {
-        string clean = mot.Trim().Trim('\uFEFF');
-
-        if (clean.Length == 0) 
+        string ligne = rawLine.Trim();
+        if (ligne.Length == 0)
             continue;
 
-        clean = clean.ToUpper();
-
-        char c = clean[0];
-        int index = c - 'A';
-        if (index < 0 || index >= 26)
+        // Si c'est une ligne contenant un nombre -> on ignore
+        if (int.TryParse(ligne, out _))
             continue;
 
-        dico[index].Add(clean);
+        // Sinon on découpe les mots
+        string[] mots = ligne.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+        foreach (string m in mots)
+        {
+            string mot = m.ToUpper();
+            char c = mot[0];
+
+            int index = c - 'A';
+            if (index < 0 || index >= 26)
+                continue;
+
+            dico[index].Add(mot);
+        }
     }
 
-    for(int i = 0; i < 26; i++)
-        dico[i].Sort(StringComparer.Ordinal);
+    // Tri final
+    for (int i = 0; i < 26; i++)
+        dico[i].Sort();
 }
 
 
