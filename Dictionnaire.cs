@@ -20,34 +20,47 @@ public class Dictionnaire
     // ===========================
     // CHARGEMENT DU DICTIONNAIRE
     // ===========================
-    private void LoadFile(string filename)
+    public void LoadFile(string nomFichier)
 {
-    if (!File.Exists(filename))
-        throw new FileNotFoundException("Fichier dictionnaire introuvable !");
+    List<string>[] motsParLettre = new List<string>[26];
+    for (int i = 0; i < 26; i++)
+        motsParLettre[i] = new List<string>();
 
-    string[] lignes = File.ReadAllLines(filename);
+    StreamReader sr = new StreamReader(nomFichier);
+    string ligne;
+    int longueurCourante = 0;
 
-    foreach (string mot in lignes)
+    while ((ligne = sr.ReadLine()) != null)
     {
-        string clean = mot.Trim().Trim('\uFEFF');
+        ligne = ligne.Trim();
+        if (ligne == "") continue;
 
-        if (clean.Length == 0) 
-            continue;
+        int n;
+        if (int.TryParse(ligne, out n))
+        {
+            longueurCourante = n;
+        }
+        else
+        {
+            string[] mots = ligne.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-        clean = clean.ToUpper();
+            foreach (string mot in mots)
+            {
+                char premiereLettre = mot[0];
+                int index = premiereLettre - 'a';
 
-        char c = clean[0];
-        int index = c - 'A';
-        if (index < 0 || index >= 26)
-            continue;
-
-        dico[index].Add(clean);
+                if (index >= 0 && index < 26)
+                {
+                    motsParLettre[index].Add(mot.ToLower());
+                }
+            }
+        }
     }
 
-    for(int i = 0; i < 26; i++)
-        dico[i].Sort(StringComparer.Ordinal);
-}
+    sr.Close();
 
+    // ici tu peux fusionner dans une seule liste si besoin
+}
 
     // ===========================
     // AFFICHAGE

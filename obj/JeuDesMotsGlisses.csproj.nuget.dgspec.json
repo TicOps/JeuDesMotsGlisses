@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\enzod\\OneDrive\\Bureau\\Algo et POO\\TP\\JeuDesMotsGlisses\\JeuDesMotsGlisses\\JeuDesMotsGlisses.csproj": {}
+    "C:\\Users\\hippo\\Desktop\\JeuDesMotsGlisses\\JeuDesMotsGlisses.csproj": {}
   },
   "projects": {
-    "C:\\Users\\enzod\\OneDrive\\Bureau\\Algo et POO\\TP\\JeuDesMotsGlisses\\JeuDesMotsGlisses\\JeuDesMotsGlisses.csproj": {
+    "C:\\Users\\hippo\\Desktop\\JeuDesMotsGlisses\\JeuDesMotsGlisses.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\enzod\\OneDrive\\Bureau\\Algo et POO\\TP\\JeuDesMotsGlisses\\JeuDesMotsGlisses\\JeuDesMotsGlisses.csproj",
+        "projectUniqueName": "C:\\Users\\hippo\\Desktop\\JeuDesMotsGlisses\\JeuDesMotsGlisses.csproj",
         "projectName": "JeuDesMotsGlisses",
-        "projectPath": "C:\\Users\\enzod\\OneDrive\\Bureau\\Algo et POO\\TP\\JeuDesMotsGlisses\\JeuDesMotsGlisses\\JeuDesMotsGlisses.csproj",
-        "packagesPath": "C:\\Users\\enzod\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\enzod\\OneDrive\\Bureau\\Algo et POO\\TP\\JeuDesMotsGlisses\\JeuDesMotsGlisses\\obj\\",
+        "projectPath": "C:\\Users\\hippo\\Desktop\\JeuDesMotsGlisses\\JeuDesMotsGlisses.csproj",
+        "packagesPath": "C:\\Users\\hippo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\hippo\\Desktop\\JeuDesMotsGlisses\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\enzod\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\hippo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -65,7 +65,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
