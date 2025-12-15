@@ -89,7 +89,15 @@ public class Program
         Console.Clear();
 
         // génération
-        Plateau p = new Plateau("Lettres.txt", 8, 8);
+        int taille;
+        Console.Write("Choisissez la taille du plateau : ");
+
+        while (!int.TryParse(Console.ReadLine(), out taille))
+        {
+            Console.Write("Veuillez entrer un entier valide : ");
+        }
+
+        Plateau p = new Plateau("Lettres.txt", taille, taille);
         Dictionnaire d = new Dictionnaire("MotsFrancais.txt");
 
         Console.Write("Nom joueur 1 : ");
