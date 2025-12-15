@@ -91,15 +91,12 @@ public class Jeu
         }
 
         var resultat = plateau.Recherche_Mot(mot);
-if (resultat == null)
-{
-    Console.WriteLine("Mot introuvable sur le plateau !");
-}
-else
-{
-    plateau.Maj_Plateau(resultat);
-}
-
+        if (resultat == null)
+        {
+            Console.WriteLine("Mot introuvable sur le plateau !");
+            Console.ReadKey();
+            continue;
+        }
 
         plateau.Maj_Plateau(resultat);
 
