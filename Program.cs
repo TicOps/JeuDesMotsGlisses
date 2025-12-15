@@ -9,11 +9,54 @@ public class Program
         while (!quitter)
         {
             Console.Clear();
-            Console.WriteLine("=== MENU ===");
-            Console.WriteLine("1. Jouer à partir d’un fichier CSV");
-            Console.WriteLine("2. Jouer avec un plateau généré aléatoirement");
-            Console.WriteLine("3. Quitter");
-            Console.Write("\nVotre choix : ");
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.WriteLine(@"     ____.              ________                     _____          __             ________.__  .__                             
+    |    | ____  __ __  \______ \   ____   ______   /     \   _____/  |_  ______  /  _____/|  | |__| ______ ______ ____   ______
+    |    |/ __ \|  |  \  |    |  \_/ __ \ /  ___/  /  \ /  \ /  _ \   __\/  ___/ /   \  ___|  | |  |/  ___//  ___// __ \ /  ___/
+/\__|    \  ___/|  |  /  |    `   \  ___/ \___ \  /    Y    (  <_> )  |  \___ \  \    \_\  \  |_|  |\___ \ \___ \\  ___/ \___ \ 
+\________|\___  >____/  /_______  /\___  >____  > \____|__  /\____/|__| /____  >  \______  /____/__/____  >____  >\___  >____  >
+              \/                \/     \/     \/          \/                 \/          \/             \/     \/     \/     \/ ");
+            
+            Console.WriteLine("\n\n📜 RÈGLES DU JEU");
+            Console.WriteLine("────────────────────────────────────");
+            Console.WriteLine("• Le jeu se joue à 2 joueurs.");
+            Console.WriteLine("• Les joueurs jouent chacun leur tour.");
+            Console.WriteLine("• Un mot doit :");
+            Console.WriteLine("   - exister dans le dictionnaire");
+            Console.WriteLine("   - être présent sur le plateau");
+            Console.WriteLine("   - faire au moins 2 lettres");
+            Console.WriteLine("• Les lettres utilisées disparaissent.");
+            Console.WriteLine("• Les lettres au-dessus glissent vers le bas.");
+            Console.WriteLine("• Chaque lettre rapporte des points.");
+            Console.WriteLine("• La partie s’arrête au bout de 2 minutes ou quand le plateau est vide.");            
+
+            Console.WriteLine(@"
+░████████                                                             ░██                                                    
+░██    ░██                                                            ░██                                                    
+░██    ░██   ░███████  ░████████  ░████████   ░███████      ░███████  ░████████   ░██████   ░████████   ░███████   ░███████  
+░████████   ░██    ░██ ░██    ░██ ░██    ░██ ░██    ░██    ░██    ░██ ░██    ░██       ░██  ░██    ░██ ░██    ░██ ░██    ░██ 
+░██     ░██ ░██    ░██ ░██    ░██ ░██    ░██ ░█████████    ░██        ░██    ░██  ░███████  ░██    ░██ ░██        ░█████████ 
+░██     ░██ ░██    ░██ ░██    ░██ ░██    ░██ ░██           ░██    ░██ ░██    ░██ ░██   ░██  ░██    ░██ ░██    ░██ ░██        
+░█████████   ░███████  ░██    ░██ ░██    ░██  ░███████      ░███████  ░██    ░██  ░█████░██ ░██    ░██  ░███████   ░███████  
+                                                                                                                                    
+                                                                                                                             
+                                                                                                                             
+            ");
+
+            Console.WriteLine("Appuyez sur une touche pour accéder au menu...");
+            Console.ReadKey();
+                        
+            
+            Console.WriteLine("\n\n\n╔════════════════════════════════════╗");
+            Console.WriteLine("║              🎮 MENU 🎮            ║");
+            Console.WriteLine("╠════════════════════════════════════╣");
+            Console.WriteLine("║  1️⃣  Jouer depuis un fichier CSV    ║");
+            Console.WriteLine("║  2️⃣  Plateau généré aléatoirement   ║");
+            Console.WriteLine("║  3️⃣  Quitter                        ║");
+            Console.WriteLine("╚════════════════════════════════════╝");
+            Console.WriteLine();
+            Console.Write("➤ Entrez votre choix : ");
+
 
             string choix = Console.ReadLine();
 
