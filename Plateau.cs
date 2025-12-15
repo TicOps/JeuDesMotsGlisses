@@ -164,6 +164,28 @@ public string ToString()
     return s;  // On renvoie la chaîne complète contenant le plateau
 }
 
+public List<Position> Recherche_Mot(string mot)
+{
+    mot = mot.ToUpper();
+
+    for (int i = 0; i < lignes; i++)
+    {
+        for (int j = 0; j < colonnes; j++)
+        {
+            if (grille[i, j] == mot[0])
+            {
+                bool[,] utilise = new bool[lignes, colonnes];
+                List<Position> chemin = new List<Position>();
+
+                if (ChercheVoisins(i, j, mot, 0, utilise, chemin))
+                    return chemin;
+            }
+        }
+    }
+
+    return null;
+}
+
 private bool ChercheVoisins(
     int i, int j,
     string mot,
