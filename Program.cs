@@ -45,6 +45,7 @@ public class Program
 
             Console.WriteLine("Appuyez sur une touche pour accéder au menu...");
             Console.ReadKey();
+            Console.Clear();
                         
             
             Console.WriteLine("\n\n\n╔════════════════════════════════════╗");
