@@ -163,6 +163,27 @@ public string ToString()
 
     return s;  // On renvoie la chaîne complète contenant le plateau
 }
+// Rechercher si un mot est bien dans le plateau
+public List<Position> Recherche_Mot(string mot)
+{
+    mot = mot.ToUpper();
+
+    int ligneDepart = lignes - 1; // base du plateau
+
+    for (int col = 0; col < colonnes; col++)
+    {
+        bool[,] utilise = new bool[lignes, colonnes];
+        List<Position> chemin = new List<Position>();
+
+        if (ChercheVoisins(ligneDepart, col, mot, 0, utilise, chemin))
+        {
+            return chemin;
+        }
+    }
+
+    return null; // mot introuvable
+}
+
 
 private bool ChercheVoisins(
     int i, int j,
