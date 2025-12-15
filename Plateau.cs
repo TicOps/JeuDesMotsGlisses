@@ -164,6 +164,50 @@ public string ToString()
     return s;  // On renvoie la chaîne complète contenant le plateau
 }
 
+private bool ChercheVoisins(
+    int i, int j,
+    string mot,
+    int index,
+    bool[,] utilise,
+    List<Position> chemin)
+{
+    // Hors plateau
+    if (i < 0 || i >= lignes || j < 0 || j >= colonnes)
+        return false;
+
+    // Case déjà utilisée
+    if (utilise[i, j])
+        return false;
+
+    // Lettre incorrecte
+    if (grille[i, j] != mot[index])
+        return false;
+
+    // On valide cette case
+    utilise[i, j] = true;
+    chemin.Add(new Position(i, j));
+
+    // Mot terminé → trouvé !
+    if (index == mot.Length - 1)
+        return true;
+
+    // 4 directions simples
+    if (ChercheVoisins(i - 1, j, mot, index + 1, utilise, chemin) || // haut
+        ChercheVoisins(i + 1, j, mot, index + 1, utilise, chemin) || // bas
+        ChercheVoisins(i, j - 1, mot, index + 1, utilise, chemin) || // gauche
+        ChercheVoisins(i, j + 1, mot, index + 1, utilise, chemin))   // droite
+    {
+        return true;
+    }
+
+    // Échec → on annule
+    utilise[i, j] = false;
+    chemin.RemoveAt(chemin.Count - 1);
+
+    return false;
+}
+
+
 //----------------------------------- Modification du plateau --------------------------------------------------
 
 // Fonction pour voir si le plateau est vide (cela permet d'arrêter la partie avant la fin du temps)
@@ -182,170 +226,6 @@ public string ToString()
     }
 
 // Rechercher si un mot est bien dans le plateau
-public List<Position> Recherche_Mot(string mot)
-{
-    mot = mot.ToUpper();
-
-    for (int i = 0; i < lignes; i++)
-    {
-        for (int j = 0; j < colonnes; j++)
-        {
-            var v = ChercheVertical(i, j, mot);
-            if (v != null) return v;
-
-            var g = ChercheGauche(i, j, mot);
-            if (g != null) return g;
-
-            var d = ChercheDroite(i, j, mot);
-            if (d != null) return d;
-
-            var diag1 = ChercheDiagHautGauche(i, j, mot);
-            if (diag1 != null) return diag1;
-
-            var diag2 = ChercheDiagHautDroite(i, j, mot);
-            if (diag2 != null) return diag2;
-
-            var diag3 = ChercheDiagBasGauche(i, j, mot);
-            if (diag3 != null) return diag3;
-
-            var diag4 = ChercheDiagBasDroite(i, j, mot);
-            if (diag4 != null) return diag4;
-        }
-    }
-
-    return null;
-}
-
-
-private List<Position> ChercheVertical(int i, int j, string mot)
-{
-    if (i - (mot.Length - 1) < 0) return null; // sort de la grille
-
-    List<Position> pos = new List<Position>();
-
-    for(int k = 0; k < mot.Length; k++)
-    {
-        if(grille[i - k, j] != mot[k])
-            return null;
-
-        pos.Add(new Position(i - k, j));
-    }
-
-    return pos;
-}
-
-
-private List<Position> ChercheGauche(int i, int j, string mot)
-{
-    // si le mot dépasse à gauche -> impossible
-    if (j - (mot.Length - 1) < 0)
-        return null;
-
-    List<Position> pos = new List<Position>();
-
-    for (int k = 0; k < mot.Length; k++)
-    {
-        // grille[i, j - k] car on va à gauche
-        if (grille[i, j - k] != mot[k])
-            return null;
-
-        pos.Add(new Position(i, j - k));
-    }
-
-    return pos;
-}
-
-private List<Position> ChercheDroite(int i, int j, string mot)
-{
-    // si le mot dépasse à droite -> impossible
-    if (j + (mot.Length - 1) >= colonnes)
-        return null;
-
-    List<Position> pos = new List<Position>();
-
-    for (int k = 0; k < mot.Length; k++)
-    {
-        // grille[i, j + k] car on va à droite
-        if (grille[i, j + k] != mot[k])
-            return null;
-
-        pos.Add(new Position(i, j + k));
-    }
-
-    return pos;
-}
-
-private List<Position> ChercheDiagHautGauche(int i, int j, string mot)
-{
-    if (i - (mot.Length - 1) < 0 || j - (mot.Length - 1) < 0)
-        return null;
-
-    List<Position> pos = new List<Position>();
-
-    for (int k = 0; k < mot.Length; k++)
-    {
-        if (grille[i - k, j - k] != mot[k])
-            return null;
-
-        pos.Add(new Position(i - k, j - k));
-    }
-
-    return pos;
-}
-
-private List<Position> ChercheDiagHautDroite(int i, int j, string mot)
-{
-    if (i - (mot.Length - 1) < 0 || j + (mot.Length - 1) >= colonnes)
-        return null;
-
-    List<Position> pos = new List<Position>();
-
-    for (int k = 0; k < mot.Length; k++)
-    {
-        if (grille[i - k, j + k] != mot[k])
-            return null;
-
-        pos.Add(new Position(i - k, j + k));
-    }
-
-    return pos;
-}
-
-private List<Position> ChercheDiagBasGauche(int i, int j, string mot)
-{
-    if (i + (mot.Length - 1) >= lignes || j - (mot.Length - 1) < 0)
-        return null;
-
-    List<Position> pos = new List<Position>();
-
-    for (int k = 0; k < mot.Length; k++)
-    {
-        if (grille[i + k, j - k] != mot[k])
-            return null;
-
-        pos.Add(new Position(i + k, j - k));
-    }
-
-    return pos;
-}
-
-private List<Position> ChercheDiagBasDroite(int i, int j, string mot)
-{
-    if (i + (mot.Length - 1) >= lignes || j + (mot.Length - 1) >= colonnes)
-        return null;
-
-    List<Position> pos = new List<Position>();
-
-    for (int k = 0; k < mot.Length; k++)
-    {
-        if (grille[i + k, j + k] != mot[k])
-            return null;
-
-        pos.Add(new Position(i + k, j + k));
-    }
-
-    return pos;
-}
 
 
 
