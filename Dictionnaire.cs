@@ -20,39 +20,41 @@ public class Dictionnaire
     // ===========================
     // CHARGEMENT DU DICTIONNAIRE
     // ===========================
-    public void LoadFile(string nomFichier)
+public void LoadFile(string nomFichier)
 {
-    // dico est déjà initialisé dans ton constructeur
-
-    string[] lignes = File.ReadAllLines(nomFichier);
-
-    foreach (string rawLine in lignes)
+    using (StreamReader sr = new StreamReader(nomFichier))
     {
-        string ligne = rawLine.Trim();
-        if (ligne.Length == 0)
-            continue;
+        string ligne;
 
-        // Si c'est une ligne contenant un nombre -> on ignore
-        if (int.TryParse(ligne, out _))
-            continue;
-
-        // Sinon on découpe les mots
-        string[] mots = ligne.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-        foreach (string m in mots)
+        while ((ligne = sr.ReadLine()) != null)
         {
-            string mot = m.ToUpper();
-            char c = mot[0];
+            ligne = ligne.Trim();
 
-            int index = c - 'A';
+            if (ligne.Length == 0)
+                continue;
+
+            // Découpage des mots de la ligne
+            string[] mots = ligne.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            if (mots.Length == 0)
+                continue;
+
+            // Lettre de référence = première lettre du premier mot
+            char lettre = mots[0][0];
+            int index = lettre - 'A';
+
             if (index < 0 || index >= 26)
                 continue;
 
-            dico[index].Add(mot);
+            // Tous les mots de la ligne vont dans la même liste
+            foreach (string motBrut in mots)
+            {
+                dico[index].Add(motBrut.ToUpper());
+            }
         }
     }
 
-    // Tri final
+    // Tri obligatoire pour la recherche dichotomique
     for (int i = 0; i < 26; i++)
         dico[i].Sort();
 }
