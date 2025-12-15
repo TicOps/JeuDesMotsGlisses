@@ -62,19 +62,18 @@ La partie se termine lorsque :
 
 ### 📁 Structure des fichiers
 
-JeuDesMotsGlisses/
-│
-├── Program.cs → Menu principal et lancement du jeu
-├── Jeu.cs → Gestion de la partie (tours, scores, temps)
-├── Plateau.cs → Gestion du plateau et recherche des mots
-├── Joueur.cs → Données et actions d’un joueur
-├── Dictionnaire.cs → Chargement et recherche des mots
-├── Position.cs → Représente une position (ligne, colonne)
-│
-├── Lettres.txt → Lettres disponibles + poids
-├── MotsFrancais.txt → Dictionnaire de mots français
-│
-├── README.md → Documentation du projet
+- JeuDesMotsGlisses/
+    - Program.cs → Menu principal et lancement du jeu
+    - Jeu.cs → Gestion de la partie (tours, scores, temps)
+    - Plateau.cs → Gestion du plateau et recherche des mots
+    -  Joueur.cs → Données et actions d’un joueur
+    - Dictionnaire.cs → Chargement et recherche des mots
+    - Position.cs → Représente une position (ligne, colonne)
+
+    - Lettres.txt → Lettres disponibles + poids
+    - MotsFrancais.txt → Dictionnaire de mots français
+
+    - README.md → Documentation du projet
 
 
 ---
