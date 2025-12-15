@@ -106,7 +106,11 @@ public string ToString()
 
         for (int j = 0; j < colonnes; j++)
         {
-            s += " " + grille[i, j] + " ";  
+            char c = grille[i, j];
+            if (c == '\0') c = ' ';   // afficher un espace visible
+
+            s += " " + c + " ";
+
             // Ajoute la lettre entourée d'espaces pour la centrer visuellement
             // Exemple : " A "
 

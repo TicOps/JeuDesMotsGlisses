@@ -21,4 +21,4 @@ cd JeuDesMotsGlisses </pre>
 
 
 # Fonctions à implémenter : 
-- La fonction AfficherScore() qui permet d'afficher un texte de fin avec le vaiqueur et les scores des deux joueur
+- Fonction pour trier le fichier mots.txt
