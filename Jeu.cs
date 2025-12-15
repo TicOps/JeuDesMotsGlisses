@@ -4,6 +4,9 @@ public class Jeu
     private Joueur joueur2;
     private Plateau plateau;
     private Dictionnaire dictionnaire;
+    private DateTime debutPartie;
+    private TimeSpan dureePartie = TimeSpan.FromSeconds(60); // exemple
+
 
     private TimeSpan tempsPartie;
     private TimeSpan tempsParTour;
@@ -28,6 +31,7 @@ public class Jeu
     {
         Console.WriteLine("Début de la partie !");
         DateTime debut = DateTime.Now;
+        debutPartie = DateTime.Now;
 
         Joueur actif = joueur1;
 
@@ -41,25 +45,34 @@ public class Jeu
         AfficherScores();
     }
 
-    private void JeuUnTour(Joueur joueur)
+   private void JeuUnTour(Joueur joueur)
 {
     Console.Clear();
-    DateTime debutTour = DateTime.Now;
 
     while (true)
     {
-        TimeSpan tempsEcoule = DateTime.Now - debutTour;
-        TimeSpan tempsRestant = tempsParTour - tempsEcoule;
+        // Temps restant de la PARTIE
+        TimeSpan tempsEcoulePartie = DateTime.Now - debutPartie;
+        TimeSpan tempsRestantPartie = dureePartie - tempsEcoulePartie;
 
-        if (tempsRestant <= TimeSpan.Zero)
-            break;
+        if (tempsRestantPartie <= TimeSpan.Zero)
+        {
+            Console.WriteLine("⏱ Temps de la partie écoulé !");
+            Console.ReadKey();
+            return;
+        }
 
         Console.Clear();
         Console.WriteLine(plateau.ToString());
         Console.WriteLine($"Au tour de {joueur.Nom}");
-        Console.WriteLine($"Temps restant : {tempsRestant.Seconds}.{tempsRestant.Milliseconds / 100} s");
-        Console.Write("Votre mot : ");
+        Console.WriteLine($"Vous avez {tempsRestantPartie.Seconds} secondes pour jouer");
 
+        if (tempsRestantPartie.TotalSeconds <= 10)
+        {
+            Console.WriteLine("⚠️ Attention, il vous reste moins de 10 secondes !");
+        }
+
+        Console.Write("Votre mot : ");
         string mot = Console.ReadLine();
 
         if (mot.Length < 2)
@@ -101,9 +114,6 @@ public class Jeu
         Console.ReadKey();
         return;
     }
-
-    Console.WriteLine("⏱ Temps écoulé !");
-    Console.ReadKey();
 }
 
     private void ChargerPoids(string fichier)
