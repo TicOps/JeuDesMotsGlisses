@@ -164,6 +164,7 @@ public string ToString()
     return s;  // On renvoie la chaîne complète contenant le plateau
 }
 
+
 public List<Position> Recherche_Mot(string mot)
 {
     mot = mot.ToUpper();
