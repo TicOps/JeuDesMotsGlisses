@@ -27,50 +27,44 @@ public class Jeu
 }
 
 
-    public void Demarrer()
+   public void Demarrer()
+{
+    Console.WriteLine("Début de la partie !");
+    debutPartie = DateTime.Now;
+
+    Joueur actif = joueur1;
+
+    while (DateTime.Now - debutPartie < tempsPartie && !plateau.EstVide())
     {
-        Console.WriteLine("Début de la partie !");
-        DateTime debut = DateTime.Now;
-        debutPartie = DateTime.Now;
+        bool tourOK = JeuUnTour(actif);
 
-        Joueur actif = joueur1;
+        if (!tourOK)
+            break;
 
-        while(DateTime.Now - debut < tempsPartie && !plateau.EstVide())
-        {
-            JeuUnTour(actif);
-            actif = actif == joueur1 ? joueur2 : joueur1;
-        }
-
-        Console.WriteLine("Fin de partie !");
-        AfficherScores();
+        actif = actif == joueur1 ? joueur2 : joueur1;
     }
 
-   private void JeuUnTour(Joueur joueur)
-{
-    Console.Clear();
+    Console.WriteLine("Fin de partie !");
+    AfficherScores();
+}
 
+
+  private bool JeuUnTour(Joueur joueur)
+{
     while (true)
     {
-        // Temps restant de la PARTIE
-        TimeSpan tempsEcoulePartie = DateTime.Now - debutPartie;
-        TimeSpan tempsRestantPartie = dureePartie - tempsEcoulePartie;
+        TimeSpan tempsRestantPartie = tempsPartie - (DateTime.Now - debutPartie);
 
         if (tempsRestantPartie <= TimeSpan.Zero)
-        {
-            Console.WriteLine("⏱ Temps de la partie écoulé !");
-            Console.ReadKey();
-            return;
-        }
+            return false;
 
         Console.Clear();
         Console.WriteLine(plateau.ToString());
         Console.WriteLine($"Au tour de {joueur.Nom}");
-        Console.WriteLine($"Vous avez {tempsRestantPartie.Seconds} secondes pour jouer");
+        Console.WriteLine($"Vous avez {(int)tempsRestantPartie.TotalSeconds} secondes pour jouer");
 
         if (tempsRestantPartie.TotalSeconds <= 10)
-        {
             Console.WriteLine("⚠️ Attention, il vous reste moins de 10 secondes !");
-        }
 
         Console.Write("Votre mot : ");
         string mot = Console.ReadLine();
@@ -112,9 +106,11 @@ public class Jeu
 
         Console.WriteLine($"Mot validé ! Score +{score}");
         Console.ReadKey();
-        return;
+        return true;
     }
 }
+
+
 
     private void ChargerPoids(string fichier)
     {
