@@ -186,28 +186,36 @@ public List<Position> Recherche_Mot(string mot)
 {
     mot = mot.ToUpper();
 
-    int lastRow = lignes - 1;
-
-    for (int col = 0; col < colonnes; col++)
+    for (int i = 0; i < lignes; i++)
     {
-        // vertical
-        var vertical = ChercheVertical(lastRow, col, mot);
-        if (vertical != null)
-            return vertical;
+        for (int j = 0; j < colonnes; j++)
+        {
+            var v = ChercheVertical(i, j, mot);
+            if (v != null) return v;
 
-        // gauche
-        var gauche = ChercheGauche(lastRow, col, mot);
-        if (gauche != null)
-            return gauche;
+            var g = ChercheGauche(i, j, mot);
+            if (g != null) return g;
 
-        // droite
-        var droite = ChercheDroite(lastRow, col, mot);
-        if (droite != null)
-            return droite;
+            var d = ChercheDroite(i, j, mot);
+            if (d != null) return d;
+
+            var diag1 = ChercheDiagHautGauche(i, j, mot);
+            if (diag1 != null) return diag1;
+
+            var diag2 = ChercheDiagHautDroite(i, j, mot);
+            if (diag2 != null) return diag2;
+
+            var diag3 = ChercheDiagBasGauche(i, j, mot);
+            if (diag3 != null) return diag3;
+
+            var diag4 = ChercheDiagBasDroite(i, j, mot);
+            if (diag4 != null) return diag4;
+        }
     }
 
-    return null; // introuvable
+    return null;
 }
+
 
 private List<Position> ChercheVertical(int i, int j, string mot)
 {
@@ -266,6 +274,81 @@ private List<Position> ChercheDroite(int i, int j, string mot)
 
     return pos;
 }
+
+private List<Position> ChercheDiagHautGauche(int i, int j, string mot)
+{
+    if (i - (mot.Length - 1) < 0 || j - (mot.Length - 1) < 0)
+        return null;
+
+    List<Position> pos = new List<Position>();
+
+    for (int k = 0; k < mot.Length; k++)
+    {
+        if (grille[i - k, j - k] != mot[k])
+            return null;
+
+        pos.Add(new Position(i - k, j - k));
+    }
+
+    return pos;
+}
+
+private List<Position> ChercheDiagHautDroite(int i, int j, string mot)
+{
+    if (i - (mot.Length - 1) < 0 || j + (mot.Length - 1) >= colonnes)
+        return null;
+
+    List<Position> pos = new List<Position>();
+
+    for (int k = 0; k < mot.Length; k++)
+    {
+        if (grille[i - k, j + k] != mot[k])
+            return null;
+
+        pos.Add(new Position(i - k, j + k));
+    }
+
+    return pos;
+}
+
+private List<Position> ChercheDiagBasGauche(int i, int j, string mot)
+{
+    if (i + (mot.Length - 1) >= lignes || j - (mot.Length - 1) < 0)
+        return null;
+
+    List<Position> pos = new List<Position>();
+
+    for (int k = 0; k < mot.Length; k++)
+    {
+        if (grille[i + k, j - k] != mot[k])
+            return null;
+
+        pos.Add(new Position(i + k, j - k));
+    }
+
+    return pos;
+}
+
+private List<Position> ChercheDiagBasDroite(int i, int j, string mot)
+{
+    if (i + (mot.Length - 1) >= lignes || j + (mot.Length - 1) >= colonnes)
+        return null;
+
+    List<Position> pos = new List<Position>();
+
+    for (int k = 0; k < mot.Length; k++)
+    {
+        if (grille[i + k, j + k] != mot[k])
+            return null;
+
+        pos.Add(new Position(i + k, j + k));
+    }
+
+    return pos;
+}
+
+
+
 
 // Mise à jour du plateau, ici l'iée clé est de traiter colone par colone et de supprimer le \0
 public void Maj_Plateau(List<Position> positions)
