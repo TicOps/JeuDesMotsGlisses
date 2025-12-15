@@ -42,56 +42,69 @@ public class Jeu
     }
 
     private void JeuUnTour(Joueur joueur)
+{
+    Console.Clear();
+    DateTime debutTour = DateTime.Now;
+
+    while (true)
     {
+        TimeSpan tempsEcoule = DateTime.Now - debutTour;
+        TimeSpan tempsRestant = tempsParTour - tempsEcoule;
+
+        if (tempsRestant <= TimeSpan.Zero)
+            break;
+
         Console.Clear();
         Console.WriteLine(plateau.ToString());
         Console.WriteLine($"Au tour de {joueur.Nom}");
+        Console.WriteLine($"Temps restant : {tempsRestant.Seconds}.{tempsRestant.Milliseconds / 100} s");
+        Console.Write("Votre mot : ");
 
-        DateTime debutTour = DateTime.Now;
+        string mot = Console.ReadLine();
 
-        while(DateTime.Now - debutTour < tempsParTour)
+        if (mot.Length < 2)
         {
-            Console.Write("Votre mot : ");
-            string mot = Console.ReadLine();
-
-            if (mot.Length < 2)
-            {
-                Console.WriteLine("Mot trop court !");
-                continue;
-            }
-
-            if (joueur.Contient(mot))
-            {
-                Console.WriteLine("Mot déjà trouvé !");
-                continue;
-            }
-
-            if (!dictionnaire.RechDichoRecursif(mot))
-            {
-                Console.WriteLine("Mot absent du dictionnaire !");
-                continue;
-            }
-
-            var resultat = plateau.Recherche_Mot(mot);
-            if (resultat == null)
-            {
-                Console.WriteLine("Mot introuvable sur le plateau !");
-                continue;
-            }
-
-            plateau.Maj_Plateau(resultat);
-
-            int score = CalculScore(mot);
-            joueur.Add_Mot(mot);
-            joueur.Add_Score(score);
-            Console.WriteLine($"Mot validé ! Score +{score}");
+            Console.WriteLine("Mot trop court !");
             Console.ReadKey();
-            return;
+            continue;
         }
 
-        Console.WriteLine("Temps écoulé !");
+        if (joueur.Contient(mot))
+        {
+            Console.WriteLine("Mot déjà trouvé !");
+            Console.ReadKey();
+            continue;
+        }
+
+        if (!dictionnaire.RechDichoRecursif(mot))
+        {
+            Console.WriteLine("Mot absent du dictionnaire !");
+            Console.ReadKey();
+            continue;
+        }
+
+        var resultat = plateau.Recherche_Mot(mot);
+        if (resultat == null)
+        {
+            Console.WriteLine("Mot introuvable sur le plateau !");
+            Console.ReadKey();
+            continue;
+        }
+
+        plateau.Maj_Plateau(resultat);
+
+        int score = CalculScore(mot);
+        joueur.Add_Mot(mot);
+        joueur.Add_Score(score);
+
+        Console.WriteLine($"Mot validé ! Score +{score}");
         Console.ReadKey();
+        return;
     }
+
+    Console.WriteLine("⏱ Temps écoulé !");
+    Console.ReadKey();
+}
 
     private void ChargerPoids(string fichier)
     {
