@@ -68,7 +68,7 @@ public class Dictionnaire
 
         // Tri des listes pour permettre la recherche dichotomique
         for (int i = 0; i < 26; i++)
-            dico[i].Sort();
+            TriFusion(dico[i]);
     }
 
     /// <summary>
@@ -128,4 +128,101 @@ public class Dictionnaire
         else
             return DichoRec(liste, mot, milieu + 1, fin);
     }
+
+    /// <summary>
+    /// Trie une liste de mots en utilisant l'algorithme du tri fusion.
+    /// Cette méthode modifie directement la liste passée en paramètre.
+    /// </summary>
+    /// <param name="liste">Liste de chaînes de caractères à trier</param>
+    private void TriFusion(List<string> liste)
+    {
+        // Si la liste contient 0 ou 1 élément,
+        // elle est déjà triée, on arrête
+        if (liste.Count <= 1)
+            return;
+
+        // On lance le tri fusion récursif
+        List<string> triee = TriFusionRec(liste);
+
+        // On vide la liste d'origine
+        liste.Clear();
+
+        // On remet les éléments triés dans la liste d'origine
+        liste.AddRange(triee);
+    }
+
+    /// <summary>
+    /// Fonction récursive du tri fusion.
+    /// Elle divise la liste en deux parties, trie chaque partie,
+    /// puis les fusionne pour obtenir une liste triée.
+    /// </summary>
+    /// <param name="liste">Liste à trier</param>
+    /// <returns>Nouvelle liste triée</returns>
+    private List<string> TriFusionRec(List<string> liste)
+    {
+        // Cas de base :
+        // une liste de 0 ou 1 élément est déjà triée
+        if (liste.Count <= 1)
+            return liste;
+
+        // On calcule le milieu de la liste
+        int milieu = liste.Count / 2;
+
+        // On sépare la liste en deux sous-listes
+        List<string> gauche = liste.GetRange(0, milieu);
+        List<string> droite = liste.GetRange(milieu, liste.Count - milieu);
+
+        // On trie récursivement chaque sous-liste
+        gauche = TriFusionRec(gauche);
+        droite = TriFusionRec(droite);
+
+        // On fusionne les deux listes triées
+        return Fusion(gauche, droite);
+    }
+
+    /// <summary>
+    /// Fusionne deux listes déjà triées en une seule liste triée.
+    /// Les éléments sont comparés un par un.
+    /// </summary>
+    /// <param name="gauche">Première liste triée</param>
+    /// <param name="droite">Deuxième liste triée</param>
+    /// <returns>Liste fusionnée et triée</returns>
+    private List<string> Fusion(List<string> gauche, List<string> droite)
+    {
+        // Liste qui contiendra le résultat final
+        List<string> resultat = new List<string>();
+
+        // Tant que les deux listes contiennent des éléments
+        while (gauche.Count > 0 && droite.Count > 0)
+        {
+            // On compare le premier élément de chaque liste
+            if (string.Compare(gauche[0], droite[0]) <= 0)
+            {
+                // L'élément de gauche est le plus petit
+                resultat.Add(gauche[0]);
+                gauche.RemoveAt(0); // on le retire de la liste gauche
+            }
+            else
+            {
+                // L'élément de droite est le plus petit
+                resultat.Add(droite[0]);
+                droite.RemoveAt(0); // on le retire de la liste droite
+            }
+        }
+
+        // S'il reste des éléments dans la liste gauche,
+        // on les ajoute tous à la fin
+        resultat.AddRange(gauche);
+
+        // S'il reste des éléments dans la liste droite,
+        // on les ajoute tous à la fin
+        resultat.AddRange(droite);
+
+        return resultat;
+    }
+
+
+
 }
+
+
