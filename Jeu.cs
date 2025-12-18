@@ -62,16 +62,25 @@ public class Jeu
     // ==========================
     private bool JouerUnTour(Joueur joueur)
     {
-        TimeSpan tempsRestant = dureePartie - (DateTime.Now - debutPartie);
-
-        if (tempsRestant <= TimeSpan.Zero)
+        TimeSpan tempsRestantPartie = dureePartie - (DateTime.Now - debutPartie);
+        if (tempsRestantPartie <= TimeSpan.Zero)
             return false;
 
         Console.Clear();
-        AfficherPlateauEtInfos(joueur, tempsRestant);
+        AfficherPlateauEtInfos(joueur, tempsRestantPartie);
+
+        DateTime debutTour = DateTime.Now;   // début du tour
 
         Console.Write("Mot proposé : ");
         string mot = Console.ReadLine().ToUpper();
+
+        // Vérification temps par tour
+        if (DateTime.Now - debutTour > tempsParTour)
+        {
+            Console.WriteLine("\n⏱ Temps écoulé pour ce tour !");
+            Pause();
+            return true; // on passe au joueur suivant
+        }
 
         if (!MotValide(joueur, mot))
             return true;
@@ -93,6 +102,7 @@ public class Jeu
         Pause();
         return true;
     }
+
 
     // ==========================
     //       VALIDATION
