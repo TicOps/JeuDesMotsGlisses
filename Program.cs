@@ -18,7 +18,6 @@ public class Program
         while (!quitter)
         {
             Console.Clear();
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             // ==========================
             //        TITRE ASCII
