@@ -214,14 +214,18 @@ private bool ChercheVoisins(
     if (index == mot.Length - 1)
         return true;
 
-    // 4 directions simples
-    if (ChercheVoisins(i - 1, j, mot, index + 1, utilise, chemin) || // haut
-        ChercheVoisins(i + 1, j, mot, index + 1, utilise, chemin) || // bas
-        ChercheVoisins(i, j - 1, mot, index + 1, utilise, chemin) || // gauche
-        ChercheVoisins(i, j + 1, mot, index + 1, utilise, chemin))   // droite
+    // Directions autorisées
+    if (
+        ChercheVoisins(i, j - 1, mot, index + 1, utilise, chemin) ||     // gauche
+        ChercheVoisins(i, j + 1, mot, index + 1, utilise, chemin) ||     // droite
+        ChercheVoisins(i - 1, j, mot, index + 1, utilise, chemin) ||     // haut
+        ChercheVoisins(i - 1, j - 1, mot, index + 1, utilise, chemin) || // diagonale haut-gauche
+        ChercheVoisins(i - 1, j + 1, mot, index + 1, utilise, chemin)    // diagonale haut-droite
+    )
     {
         return true;
     }
+
 
     // Échec → on annule
     utilise[i, j] = false;
