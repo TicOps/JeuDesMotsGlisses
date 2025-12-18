@@ -88,14 +88,16 @@ public class Jeu
         Console.Clear();
         AfficherPlateauEtInfos(joueur, tempsRestant);
 
+        DateTime debutTour = DateTime.Now;  //Définition de début tour
+
         Console.Write("Mot proposé : ");
         string mot = Console.ReadLine().ToUpper();
 
-        if (DateTime.Now - debutPartie >= dureePartie)
+        if (DateTime.Now - debutTour > tempsParTour)
         {
-            Console.WriteLine("\nTemps écoulé pendant la saisie.");
+            Console.WriteLine("\n⏱ Temps écoulé pour ce tour !");
             Pause();
-            return false;
+            return true; // on passe au joueur suivant
         }
 
         if (!MotValide(joueur, mot))
@@ -104,7 +106,7 @@ public class Jeu
         var positions = plateau.Recherche_Mot(mot);
         if (positions == null)
         {
-            MessageErreur("Mot introuvable sur le plateau.");
+            MessageErreur("Mot introuvable sur le plateau !");
             return true;
         }
 
@@ -114,11 +116,10 @@ public class Jeu
         joueur.Add_Mot(mot);
         joueur.Add_Score(score);
 
-        Console.WriteLine($"\nMot validé. {score} points ajoutés.");
+        Console.WriteLine($"\n✅ Mot validé ! +{score} points");
         Pause();
         return true;
     }
-
     /// <summary>
     /// Vérifie si un mot proposé est valide selon les règles du jeu.
     /// </summary>

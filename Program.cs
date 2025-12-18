@@ -67,7 +67,7 @@ public class Program
             //            MENU
             // ==========================
             Console.WriteLine("\n\n\n╔════════════════════════════════════╗");
-            Console.WriteLine("║               MENU                ║");
+            Console.WriteLine("║               MENU                 ║");
             Console.WriteLine("╠════════════════════════════════════╣");
             Console.WriteLine("║  1  Jouer depuis un fichier CSV    ║");
             Console.WriteLine("║  2  Plateau généré aléatoirement   ║");
