@@ -1,102 +1,125 @@
-using System; // permet l'utilisation des fonctions de base
-using System.Collections.Generic;  // permet l'utilisation de list<T>
-using System.IO; // permet de lire les fichiers
+using System;
+using System.Collections.Generic;
+using System.IO;
 
+/// <summary>
+/// Représente un dictionnaire de mots organisé par première lettre.
+/// Les mots sont stockés dans un tableau de 26 listes (A à Z),
+/// ce qui permet une recherche rapide par recherche dichotomique.
+/// </summary>
 public class Dictionnaire
 {
-    private List<string>[] dico;  // création d'un tableau de 26 cases. Chaque case contient une list <string> (une liste de mots)
+    /// <summary>
+    /// Tableau de 26 listes de mots.
+    /// Chaque case correspond à une lettre de A à Z.
+    /// </summary>
+    private List<string>[] dico;
 
-    public Dictionnaire(string filename)  // le constructeur reçoit le fichier texte contentant tous les mots
+    /// <summary>
+    /// Constructeur du dictionnaire.
+    /// Initialise les 26 listes et charge les mots depuis un fichier texte.
+    /// </summary>
+    /// <param name="filename">Nom du fichier contenant les mots du dictionnaire</param>
+    public Dictionnaire(string filename)
     {
         dico = new List<string>[26];
 
-        // Initialisation des 26 listes
         for (int i = 0; i < 26; i++)
             dico[i] = new List<string>();
 
-        LoadFile(filename);  // Charge les mots depuis un fichier .txt
+        LoadFile(filename);
     }
 
-    // ===========================
-    // CHARGEMENT DU DICTIONNAIRE
-    // ===========================
-public void LoadFile(string nomFichier)
-{
-    using (StreamReader sr = new StreamReader(nomFichier))
+    /// <summary>
+    /// Charge les mots du dictionnaire depuis un fichier texte.
+    /// Chaque ligne peut contenir plusieurs mots séparés par des espaces.
+    /// Les mots sont rangés dans la liste correspondant à leur première lettre.
+    /// </summary>
+    /// <param name="nomFichier">Nom du fichier texte du dictionnaire</param>
+    public void LoadFile(string nomFichier)
     {
-        string ligne;
-
-        while ((ligne = sr.ReadLine()) != null)
+        using (StreamReader sr = new StreamReader(nomFichier))
         {
-            ligne = ligne.Trim();
+            string ligne;
 
-            if (ligne.Length == 0)
-                continue;
-
-            // Découpage des mots de la ligne
-            string[] mots = ligne.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-            if (mots.Length == 0)
-                continue;
-
-            // Lettre de référence = première lettre du premier mot
-            char lettre = mots[0][0];
-            int index = lettre - 'A';
-
-            if (index < 0 || index >= 26)
-                continue;
-
-            // Tous les mots de la ligne vont dans la même liste
-            foreach (string motBrut in mots)
+            while ((ligne = sr.ReadLine()) != null)
             {
-                dico[index].Add(motBrut.ToUpper());
+                ligne = ligne.Trim();
+
+                if (ligne.Length == 0)
+                    continue;
+
+                string[] mots = ligne.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                if (mots.Length == 0)
+                    continue;
+
+                char lettre = char.ToUpper(mots[0][0]);
+                int index = lettre - 'A';
+
+                if (index < 0 || index >= 26)
+                    continue;
+
+                foreach (string mot in mots)
+                {
+                    dico[index].Add(mot.ToUpper());
+                }
             }
         }
+
+        // Tri des listes pour permettre la recherche dichotomique
+        for (int i = 0; i < 26; i++)
+            dico[i].Sort();
     }
 
-    // Tri obligatoire pour la recherche dichotomique
-    for (int i = 0; i < 26; i++)
-        dico[i].Sort();
-}
-
-
-    // ===========================
-    // AFFICHAGE
-    // ===========================
+    /// <summary>
+    /// Retourne une description du dictionnaire (nombre total de mots chargés).
+    /// </summary>
+    /// <returns>Chaîne décrivant le dictionnaire</returns>
     public override string ToString()
     {
-        int count = 0;
-        for (int i = 0; i < 26; i++)
-            count += dico[i].Count;   // on compte le nombre de mots au total ont été chargés
+        int total = 0;
 
-        return $"Dictionnaire chargé : {count} mots";
+        for (int i = 0; i < 26; i++)
+            total += dico[i].Count;
+
+        return $"Dictionnaire chargé : {total} mots";
     }
 
-    // ===========================
-    // RECHERCHE DICHOTOMIQUE RÉCURSIVE
-    // ===========================
+    /// <summary>
+    /// Vérifie si un mot est présent dans le dictionnaire
+    /// en utilisant une recherche dichotomique récursive.
+    /// </summary>
+    /// <param name="mot">Mot à rechercher</param>
+    /// <returns>true si le mot est trouvé, false sinon</returns>
     public bool RechDichoRecursif(string mot)
     {
-        if (string.IsNullOrWhiteSpace(mot))  // si le mot est vide on retourne false 
+        if (string.IsNullOrWhiteSpace(mot))
             return false;
 
-        mot = mot.ToUpper(); // on convertit le mot en majuscule 
-        int index = mot[0] - 'A';  // calcule l'indice de la première lettre 
+        mot = mot.ToUpper();
+        int index = mot[0] - 'A';
 
-        if (index < 0 || index > 25)
+        if (index < 0 || index >= 26)
             return false;
 
-        return DichoRec(dico[index], mot, 0, dico[index].Count - 1); // lancement de la recherche dichotomique 
+        return DichoRec(dico[index], mot, 0, dico[index].Count - 1);
     }
 
+    /// <summary>
+    /// Effectue une recherche dichotomique récursive dans une liste de mots.
+    /// </summary>
+    /// <param name="liste">Liste triée de mots</param>
+    /// <param name="mot">Mot recherché</param>
+    /// <param name="debut">Indice de début de la zone de recherche</param>
+    /// <param name="fin">Indice de fin de la zone de recherche</param>
+    /// <returns>true si le mot est trouvé, false sinon</returns>
     private bool DichoRec(List<string> liste, string mot, int debut, int fin)
     {
-        if (debut > fin)  // condition d'arrêt: la zone de recherche est vide 
+        if (debut > fin)
             return false;
 
-        int milieu = (debut + fin) / 2; // on coupe la liste en deux 
-
-        int comparaison = string.Compare(liste[milieu], mot);  // on compare les deux mots string.Compare renvoie un nombre > < ou = à 0 
+        int milieu = (debut + fin) / 2;
+        int comparaison = string.Compare(liste[milieu], mot);
 
         if (comparaison == 0)
             return true;
