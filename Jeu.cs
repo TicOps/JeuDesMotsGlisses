@@ -231,13 +231,13 @@ public class Jeu
     /// Charge le poids des lettres depuis un fichier texte.
     /// </summary>
     /// <param name="fichier">Nom du fichier contenant les lettres et leurs poids</param>
-    private void ChargerPoids(string fichier)
+    private void ChargerPoids(string fichier) /// fonction qui a pour but de remplir une structure de données 
     {
-        poidsLettres = new Dictionary<char, int>();
+        poidsLettres = new Dictionary<char, int>(); /// on créer un dictionnaire vide avec clé qui est un char(par exemple A) et sa valeur en int
 
-        foreach (string ligne in File.ReadAllLines(fichier))
+        foreach (string ligne in File.ReadAllLines(fichier))  /// boucle parcourant chaque ligne du fichier
         {
-            string[] t = ligne.Split(',');
+            string[] t = ligne.Split(',');  
             char lettre = char.ToUpper(t[0][0]);
             int poids = int.Parse(t[2]);
 

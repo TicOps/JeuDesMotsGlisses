@@ -38,30 +38,30 @@ public class Dictionnaire
     /// <param name="nomFichier">Nom du fichier texte du dictionnaire</param>
     public void LoadFile(string nomFichier)
     {
-        using (StreamReader sr = new StreamReader(nomFichier))
+        using (StreamReader sr = new StreamReader(nomFichier)) /// ouvre le fichier en lecture 
         {
             string ligne;
 
-            while ((ligne = sr.ReadLine()) != null)
+            while ((ligne = sr.ReadLine()) != null) /// on lit chaque ligne tant qu'elle existe
             {
-                ligne = ligne.Trim();
+                ligne = ligne.Trim(); /// enlève les espaces
 
-                if (ligne.Length == 0)
+                if (ligne.Length == 0) ///si la ligne est null après le trim on saute
                     continue;
 
-                string[] mots = ligne.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                if (mots.Length == 0)
-                    continue;
+                string[] mots = ligne.Split(' ', StringSplitOptions.RemoveEmptyEntries); /// on créer un tableau de mots en découpant sur les espaces et en supprimant les morceux vide 
+                if (mots.Length == 0) 
+                    continue; /// si aucun valide on saute
 
                 char lettre = char.ToUpper(mots[0][0]);
                 int index = lettre - 'A';
 
                 if (index < 0 || index >= 26)
-                    continue;
+                    continue; /// on saute si le caractère n'est pas une lettre 
 
                 foreach (string mot in mots)
                 {
-                    dico[index].Add(mot.ToUpper());
+                    dico[index].Add(mot.ToUpper()); /// on ajoute dans la liste de chaque case le mot en majuscule
                 }
             }
         }
